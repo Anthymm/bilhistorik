@@ -1,0 +1,29 @@
+* {
+  background-color: whitesmoke;
+  padding: 0;
+  margin: 0;
+  font-family: 'Raleway', 'Sans-serif';
+}
+
+body {
+  overflow: hidden;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  a:hover {
+    color: #747bff;
+  }
+
+  button {
+    background-color: #f9f9f9;
+  }
+}

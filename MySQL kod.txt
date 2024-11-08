@@ -1,0 +1,38 @@
+CREATE DATABASE CARDB;
+USE CARDB;
+
+
+CREATE TABLE User (
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(50),
+);
+
+
+CREATE TABLE Cars (
+    CarID INT AUTO_INCREMENT PRIMARY KEY,
+    Brand VARCHAR(50),
+    Model VARCHAR(50),
+    Year INT
+);
+
+
+CREATE TABLE Ownership (
+    OwnershipID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT,
+    CarID INT,
+    StartDate DATE,
+    EndDate DATE,
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (CarID) REFERENCES Cars(CarID)
+);
+
+
+CREATE TABLE ServiceHistory (
+    ServiceID INT AUTO_INCREMENT PRIMARY KEY,
+    CarID INT,
+    ServiceDate DATE,
+    TypeOfService VARCHAR(100),
+    Comment TEXT,
+    Workshop VARCHAR(100),
+    FOREIGN KEY (CarID) REFERENCES Cars(CarID)
+);
