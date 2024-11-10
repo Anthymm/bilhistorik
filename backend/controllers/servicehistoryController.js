@@ -9,7 +9,7 @@ exports.getServiceHistory = async (req, res) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({
@@ -21,16 +21,16 @@ exports.getServiceHistory = async (req, res) => {
 
 exports.addServiceHistory = async (req, res) => {
 
-  const { ServiceDate, TypeOfService, Comment, Workshop } = req.body
-  let sql = 'INSERT INTO ServiceHistory (ServiceDate, TypeOfService, Comment, Workshop) VALUES (?, ?, ?, ?)'
-  let params = [ServiceDate, TypeOfService, Comment, Workshop]
+  const { CarID, ServiceDate, TypeOfService, Comment, Workshop } = req.body
+  let sql = 'INSERT INTO ServiceHistory (CarID, ServiceDate, TypeOfService, Comment, Workshop) VALUES (?, ?, ?, ?, ?)'
+  let params = [CarID, ServiceDate, TypeOfService, Comment, Workshop]
 
   try {
     await connectionMySQL.query(sql, params, (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({

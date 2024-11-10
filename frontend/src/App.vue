@@ -1,5 +1,5 @@
 <script setup>
-import { ref, useId } from 'vue'
+import { ref } from 'vue'
 import ViewCarComponent from './components/ViewCarComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 const username = ref("")
@@ -18,7 +18,8 @@ function addUserMySQL(args) {
     headers: { "Content-type": "application/json" },
     method: "POST"
   })
-  getUserIdMySQL()
+    .then(res => res.json())
+    .then((data) => { userId.value = data.insertId })
 }
 
 function registerUser(args) {
@@ -41,7 +42,7 @@ function login(args) {
     <div>Bilhistorik.se</div>
   </nav>
   <main>
-    <ViewCarComponent />
+    <ViewCarComponent :userId="userId" />
   </main>
 </template>
 
@@ -57,6 +58,7 @@ nav {
 }
 
 main {
+  display: flex;
   width: 100vw;
   height: 92vh;
   overflow: hidden;

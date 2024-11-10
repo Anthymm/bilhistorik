@@ -1,15 +1,16 @@
 const connectionMySQL = require("../connectionMySQL");
 
 exports.getOwnerships = async (req, res) => {
-
-  let sql = 'SELECT * FROM Ownerships'
+  const { UserID } = req.query
+  let sql = 'SELECT * FROM Ownerships WHERE UserID = ?'
+  let params = [UserID]
 
   try {
-    await connectionMySQL.query(sql, (error, results, fields) => {
+    await connectionMySQL.query(sql, params, (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({
@@ -21,16 +22,18 @@ exports.getOwnerships = async (req, res) => {
 }
 
 exports.addOwnership = async (req, res) => {
+
   const { UserID, CarID, StartDate, EndDate } = req.body
   let sql = 'INSERT INTO Ownerships (UserID, CarID, StartDate, EndDate) VALUES (?, ?, ?, ?)'
   let params = [UserID, CarID, StartDate, EndDate]
+
 
   try {
     await connectionMySQL.query(sql, params, (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({

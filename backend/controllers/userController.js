@@ -9,7 +9,7 @@ exports.addUser = async (req, res) => {
             if (error) {
                 if (error) throw error
             }
-            return res.status(201)
+            return res.json(results)
         })
     } catch (error) {
         return res.status(500).json({

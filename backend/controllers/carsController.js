@@ -1,15 +1,15 @@
 const connectionMySQL = require("../connectionMySQL");
 
 exports.getCars = async (req, res) => {
-
-  let sql = 'SELECT * FROM Cars'
-
+  const { CarID } = req.query
+  let sql = 'SELECT * FROM Cars WHERE CarID = ?'
+  let params = [CarID]
   try {
-    await connectionMySQL.query(sql, (error, results, fields) => {
+    await connectionMySQL.query(sql, params, (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({
@@ -17,11 +17,9 @@ exports.getCars = async (req, res) => {
       error: error.message,
     })
   }
-
 }
 
 exports.addCar = async (req, res) => {
-
   const { Brand, Model, Year } = req.body
   let sql = 'INSERT INTO Cars (Brand, Model, Year) VALUES (?, ?, ?)'
   let params = [Brand, Model, Year]
@@ -31,7 +29,7 @@ exports.addCar = async (req, res) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({
