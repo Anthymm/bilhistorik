@@ -13,8 +13,8 @@ defineProps({
 </script>
 
 <template>
-  <Sidebar :userId="userId" @showcar="(carID) => { CarID = carID }" />
-  <CarComponent :CarID="CarID" />
+  <Sidebar :userId="userId" @showcar="(args) => { CarID = args }" />
+  <CarComponent :carID="CarID" :userId="userId" />
 </template>
 
 <style scoped>

@@ -78,7 +78,6 @@ function reloadUsersCars() {
           .then(res => res.json())
           .then((data) => {
             dataArray.value.push(data)[item]
-            console.log(dataArray.value)
           })
       });
     })
@@ -109,7 +108,7 @@ function submitAll() {
   <section class="sidebar">
     <button v-for="item in dataArray" @click="$emit('showcar', item[0].CarID)">{{ item[0].Brand }} {{ item[0].Model }}
       {{ item[0].Year }}</button>
-    <button @click="() => { modalOpen = !modalOpen }">Lägg till en bil {{ userId }}</button>
+    <button @click="() => { modalOpen = !modalOpen }">Lägg till en bil!</button>
   </section>
 </template>
 
@@ -126,6 +125,7 @@ function submitAll() {
   width: 100%;
   height: 8vh;
   border: none;
+  font-size: 24px;
 }
 
 .sidebar>button:hover {
@@ -133,6 +133,7 @@ function submitAll() {
 }
 
 .modalBackground {
+  z-index: 10;
   display: flex;
   justify-content: center;
   align-items: center;

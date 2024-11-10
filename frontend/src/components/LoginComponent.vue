@@ -64,6 +64,7 @@ function login() {
   width: 100vw;
   height: 100vh;
   background-color: rgba(166, 166, 166, 0.75);
+  z-index: 11;
 }
 
 .login-container {
