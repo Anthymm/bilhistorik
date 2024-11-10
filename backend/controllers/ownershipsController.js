@@ -1,8 +1,8 @@
 const connectionMySQL = require("../connectionMySQL");
 
-exports.getCars = async (req, res) => {
+exports.getOwnerships = async (req, res) => {
 
-  let sql = 'SELECT * FROM Cars'
+  let sql = 'SELECT * FROM Ownerships'
 
   try {
     await connectionMySQL.query(sql, (error, results, fields) => {
@@ -20,11 +20,10 @@ exports.getCars = async (req, res) => {
 
 }
 
-exports.addCar = async (req, res) => {
-
-  const { Brand, Model, Year } = req.body
-  let sql = 'INSERT INTO Cars (Brand, Model, Year) VALUES (?, ?, ?)'
-  let params = [Brand, Model, Year]
+exports.addOwnership = async (req, res) => {
+  const { UserID, CarID, StartDate, EndDate } = req.body
+  let sql = 'INSERT INTO Ownerships (UserID, CarID, StartDate, EndDate) VALUES (?, ?, ?, ?)'
+  let params = [UserID, CarID, StartDate, EndDate]
 
   try {
     await connectionMySQL.query(sql, params, (error, results, fields) => {
@@ -41,14 +40,13 @@ exports.addCar = async (req, res) => {
   }
 }
 
-exports.removeCar = async (req, res) => {
-
-  const { CarID } = req.params
-  let sql = "DELETE FROM Cars WHERE CarID = ?"
+exports.removeOwnership = async (req, res) => {
+  const { OwnershipID } = req.params
+  let sql = "DELETE FROM Ownerships WHERE OwnershipID = ?"
 
 
   try {
-    await connectionMySQL.query(sql, [CarID], (error, results, fields) => {
+    await connectionMySQL.query(sql, [OwnershipID], (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
@@ -61,11 +59,11 @@ exports.removeCar = async (req, res) => {
     })
   }
 }
+exports.updateOwnership = async (req, res) => {
 
-exports.updateCar = async (req, res) => {
-  const { category, value, CarID } = req.params
-  let sql = "UPDATE Cars SET ? = ? WHERE CarID = ? "
-  let params = [category, value, CarID]
+  const { category, value, OwnershipID } = req.params
+  let sql = "UPDATE Ownerships SET ? = ? WHERE OwnershipID = ? "
+  let params = [category, value, OwnershipID]
 
 
   try {

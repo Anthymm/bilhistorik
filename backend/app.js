@@ -33,7 +33,10 @@ app.use(cors());
 app.use(express.static("public"));
 
 const userRoutes = require("./routes/userRoutes");
-// const ownershipRoutes = require("./routes/ownershipRoutes");
+const imagesRoutes = require("./routes/imagesRoutes");
+const servicehistoryRoutes = require("./routes/servicehistoryRoutes");
+const ownershipsRoutes = require("./routes/ownershipsRoutes");
+const carsRoutes = require("./routes/carsRoutes");
 
 app.get('/api/registerUser', async (req, res) => {
   const findUser = await User.find({ username: req.query.data.split(' ')[0] })
@@ -62,7 +65,10 @@ app.get('/api/loginUser', async (req, res) => {
 })
 // Use routes in express app
 app.use(userRoutes);
-// app.use(ownershipRoutes);
+app.use(imagesRoutes);
+app.use(servicehistoryRoutes);
+app.use(ownershipsRoutes);
+app.use(carsRoutes);
 
 // Start express webb
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

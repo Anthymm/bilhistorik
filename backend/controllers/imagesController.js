@@ -1,8 +1,7 @@
 const connectionMySQL = require("../connectionMySQL");
 
-exports.getCars = async (req, res) => {
-
-  let sql = 'SELECT * FROM Cars'
+exports.getImages = async (req, res) => {
+  let sql = 'SELECT * FROM Images'
 
   try {
     await connectionMySQL.query(sql, (error, results, fields) => {
@@ -17,14 +16,13 @@ exports.getCars = async (req, res) => {
       error: error.message,
     })
   }
-
 }
 
-exports.addCar = async (req, res) => {
+exports.addImage = async (req, res) => {
 
-  const { Brand, Model, Year } = req.body
-  let sql = 'INSERT INTO Cars (Brand, Model, Year) VALUES (?, ?, ?)'
-  let params = [Brand, Model, Year]
+  const { ImageURL, CarID } = req.body
+  let sql = 'INSERT INTO Images (ImageURL, CarID) VALUES (?, ?)'
+  let params = [ImageURL, CarID]
 
   try {
     await connectionMySQL.query(sql, params, (error, results, fields) => {
@@ -39,16 +37,16 @@ exports.addCar = async (req, res) => {
       error: error.message,
     })
   }
+
 }
 
-exports.removeCar = async (req, res) => {
-
-  const { CarID } = req.params
-  let sql = "DELETE FROM Cars WHERE CarID = ?"
+exports.removeImage = async (req, res) => {
+  const { ImageID } = req.params
+  let sql = "DELETE FROM Images WHERE ImageID = ?"
 
 
   try {
-    await connectionMySQL.query(sql, [CarID], (error, results, fields) => {
+    await connectionMySQL.query(sql, [ImageID], (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
@@ -62,10 +60,11 @@ exports.removeCar = async (req, res) => {
   }
 }
 
-exports.updateCar = async (req, res) => {
-  const { category, value, CarID } = req.params
-  let sql = "UPDATE Cars SET ? = ? WHERE CarID = ? "
-  let params = [category, value, CarID]
+exports.updateImage = async (req, res) => {
+
+  const { ImageURL, ImageID } = req.params
+  let sql = "UPDATE Images SET ImageURL = ? WHERE ImageID = ? "
+  let params = [ImageURL, ImageID]
 
 
   try {

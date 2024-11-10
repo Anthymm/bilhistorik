@@ -1,8 +1,8 @@
 const connectionMySQL = require("../connectionMySQL");
 
-exports.getCars = async (req, res) => {
+exports.getServiceHistory = async (req, res) => {
 
-  let sql = 'SELECT * FROM Cars'
+  let sql = 'SELECT * FROM ServiceHistory'
 
   try {
     await connectionMySQL.query(sql, (error, results, fields) => {
@@ -17,14 +17,13 @@ exports.getCars = async (req, res) => {
       error: error.message,
     })
   }
-
 }
 
-exports.addCar = async (req, res) => {
+exports.addServiceHistory = async (req, res) => {
 
-  const { Brand, Model, Year } = req.body
-  let sql = 'INSERT INTO Cars (Brand, Model, Year) VALUES (?, ?, ?)'
-  let params = [Brand, Model, Year]
+  const { ServiceDate, TypeOfService, Comment, Workshop } = req.body
+  let sql = 'INSERT INTO ServiceHistory (ServiceDate, TypeOfService, Comment, Workshop) VALUES (?, ?, ?, ?)'
+  let params = [ServiceDate, TypeOfService, Comment, Workshop]
 
   try {
     await connectionMySQL.query(sql, params, (error, results, fields) => {
@@ -39,16 +38,16 @@ exports.addCar = async (req, res) => {
       error: error.message,
     })
   }
+
 }
 
-exports.removeCar = async (req, res) => {
-
-  const { CarID } = req.params
-  let sql = "DELETE FROM Cars WHERE CarID = ?"
+exports.removeServiceHistory = async (req, res) => {
+  const { ServiceID } = req.params
+  let sql = "DELETE FROM ServiceHistory WHERE ServiceID = ?"
 
 
   try {
-    await connectionMySQL.query(sql, [CarID], (error, results, fields) => {
+    await connectionMySQL.query(sql, [ServiceID], (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
@@ -60,12 +59,14 @@ exports.removeCar = async (req, res) => {
       error: error.message,
     })
   }
+
 }
 
-exports.updateCar = async (req, res) => {
-  const { category, value, CarID } = req.params
-  let sql = "UPDATE Cars SET ? = ? WHERE CarID = ? "
-  let params = [category, value, CarID]
+exports.updateServiceHistory = async (req, res) => {
+
+  const { category, value, ServiceID } = req.params
+  let sql = "UPDATE ServiceHistory SET ? = ? WHERE ServiceID = ? "
+  let params = [category, value, ServiceID]
 
 
   try {
@@ -81,4 +82,5 @@ exports.updateCar = async (req, res) => {
       error: error.message,
     })
   }
+
 }
