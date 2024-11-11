@@ -63,6 +63,39 @@ app.get('/api/loginUser', async (req, res) => {
     res.send({ data: "Unknown User" })
   }
 })
+
+app.get('/api/changeUserUsername', async (req, res) => {
+  const findUser = await User.find({ username: req.query.data.split(' ')[0] })
+  const id = findUser[0]._id
+
+  if (findUser.length >= 1) {
+    const user = await User.findById(id)
+    user.username = req.query.data.split(' ')[1];
+    await user.save();
+    res.send({ data: "Username Changed" })
+  }
+
+})
+
+app.get('/api/changeUserPassword', async (req, res) => {
+  const findUser = await User.find({ username: req.query.data.split(' ')[0] })
+  const id = findUser[0]._id
+
+  if (findUser.length >= 1) {
+    const user = await User.findById(id)
+    user.password = req.query.data.split(' ')[1];
+    await user.save();
+    res.send({ data: "Password Changed" })
+  }
+})
+
+app.get('/api/removeUser', async (req, res) => {
+  const findUser = await User.find({ username: req.query.data })
+  if (findUser.length >= 1) {
+    await User.deleteOne({ username: req.query.data })
+    res.send({ data: "Account Removed" })
+  }
+})
 // Use routes in express app
 app.use(userRoutes);
 app.use(imagesRoutes);

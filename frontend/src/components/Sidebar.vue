@@ -83,6 +83,17 @@ function reloadUsersCars() {
     })
 }
 
+function removeCar(ID) {
+  fetch("/api/cars?CarID=" + ID, {
+    headers: { "Content-type": "application/json" },
+    method: "DELETE"
+  })
+    .then(res => res.json())
+    .then((data) => {
+      reloadUsersCars()
+    })
+}
+
 function submitAll() {
   modalOpen.value = !modalOpen.value
   submitCar()
@@ -106,9 +117,12 @@ function submitAll() {
     </div>
   </section>
   <section class="sidebar">
-    <button v-for="item in dataArray" @click="$emit('showcar', item[0].CarID)">{{ item[0].Brand }} {{ item[0].Model }}
-      {{ item[0].Year }}</button>
-    <button @click="() => { modalOpen = !modalOpen }">Lägg till en bil!</button>
+    <div v-for="item in dataArray">
+      <button @click="$emit('showcar', item[0].CarID)">{{ item[0].Brand }} {{ item[0].Model }}
+        {{ item[0].Year }}</button>
+      <button class="removeButton" @click="() => { removeCar(item[0].CarID) }">Ta bort</button>
+    </div>
+    <button class="addCar" @click="() => { modalOpen = !modalOpen }">Lägg till en bil!</button>
   </section>
 </template>
 
@@ -121,14 +135,28 @@ function submitAll() {
   border-right: 2px solid lightgray;
 }
 
-.sidebar>button {
+.sidebar>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.sidebar>div>button {
+  width: 75%;
+  height: 8vh;
+  border: none;
+  font-size: 24px;
+}
+
+.addCar {
   width: 100%;
   height: 8vh;
   border: none;
   font-size: 24px;
 }
 
-.sidebar>button:hover {
+.sidebar>div>button:hover {
   background-color: lightgray;
 }
 
@@ -192,6 +220,11 @@ button {
   height: 100%;
   border: none;
   font-size: 32px;
+}
+
+.removeButton {
+  width: 25%;
+  height: 8vh;
 }
 </style>
 

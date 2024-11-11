@@ -44,16 +44,16 @@ exports.addOwnership = async (req, res) => {
 }
 
 exports.removeOwnership = async (req, res) => {
-  const { OwnershipID } = req.params
-  let sql = "DELETE FROM Ownerships WHERE OwnershipID = ?"
-
+  const { ID } = req.query
+  let sql = "DELETE FROM Ownerships WHERE CarID = ?"
+  let params = [ID]
 
   try {
-    await connectionMySQL.query(sql, [OwnershipID], (error, results, fields) => {
+    await connectionMySQL.query(sql, params, (error, results, fields) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({
@@ -74,7 +74,7 @@ exports.updateOwnership = async (req, res) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({

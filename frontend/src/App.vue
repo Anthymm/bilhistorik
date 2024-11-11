@@ -2,14 +2,20 @@
 import { ref } from 'vue'
 import ViewCarComponent from './components/ViewCarComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
+import ProfileComponent from './components/ProfileComponent.vue';
 const username = ref("")
 const loggedIn = ref(false)
 const userId = ref(0)
 
+
+
 function getUserIdMySQL(args) {
   fetch("/api/users?username=" + args)
     .then(res => res.json())
-    .then((data) => { userId.value = data[0].UserID })
+    .then((data) => {
+      userId.value = data[0].UserID
+      username.value = data[0].Username
+    })
 }
 
 function addUserMySQL(args) {
@@ -34,12 +40,20 @@ function login(args) {
   getUserIdMySQL(args)
 }
 
+function logout() {
+  username.value = ""
+  loggedIn.value = false
+  userId.value = 0
+}
+
 </script>
 
 <template>
   <LoginComponent v-if="!loggedIn" @login="(args) => { login(args) }" @register="(args) => { registerUser(args) }" />
   <nav>
     <div>Bilhistorik.se</div>
+    <ProfileComponent :username="username" @logout="logout" :userId="userId" @updateuser="(e) => { getUserIdMySQL(e) }"
+      @userremoved="logout" />
   </nav>
   <main>
     <ViewCarComponent :userId="userId" />
@@ -51,10 +65,16 @@ nav {
   height: 8vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
   font-size: 64px;
   border-bottom: 2px solid black;
+}
+
+nav>div {
+  display: flex;
+  justify-content: flex-end;
+  width: 58%;
 }
 
 main {

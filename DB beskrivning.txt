@@ -1,16 +1,22 @@
-MySQL har ett ER-Diagram.
+MySQL har ett ER-Diagram,
+I User så är UserID PK
+I Ownership så är OwnershipID PK, CarID och UserID är FK.
+I Cars är CarID PK
+I Images är ImageID PK och CarID är FK
+I ServiceHistory är ServiceID PK och CarID är FK
 
 MongoDB kommer att användas för inlogg, denna DB ska spara Användarnamn och Lösenord. Användarnamnet och Lösenordet skall ha db.collection.insertOne() för
 registering av användare, db.collection.find() skall användas för att hitta användaren, db.collection.deleteOne() skall användas så att en användare kan ta bort sitt konto,
 db.collection.updateOne() skall användas för att kunna ändra lösenord och användarnamn.
 
-RestAPIn för MongoDB kommer att "loginUser" och "registerUser" som sina endpoints, dessa är korta och förklarar vad dem gör
+RestAPIn för MongoDB kommer att "loginUser", "registerUser", "changeUserUsername", "changeUserPassword" och "removeUser" som sina endpoints, dessa är korta och förklarar vad dem gör
 
 sedan så kommer endpoints för MySQL vara:
 "Users"
 "Cars"
 "Ownership"
 "ServiceHistory"
+"Images"
 
 Aneldningen till dessa är pågrund av namnen på tabellerna i DB'n, detta är för
 att det ska vara enklare att komma ihåg när man arbetar.

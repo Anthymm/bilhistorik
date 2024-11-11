@@ -41,7 +41,7 @@ exports.addCar = async (req, res) => {
 
 exports.removeCar = async (req, res) => {
 
-  const { CarID } = req.params
+  const { CarID } = req.query
   let sql = "DELETE FROM Cars WHERE CarID = ?"
 
 
@@ -50,7 +50,7 @@ exports.removeCar = async (req, res) => {
       if (error) {
         if (error) throw error
       }
-      return res.status(201)
+      return res.json(results)
     })
   } catch (error) {
     return res.status(500).json({
