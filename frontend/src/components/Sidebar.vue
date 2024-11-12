@@ -156,6 +156,10 @@ function submitAll() {
   font-size: 24px;
 }
 
+.addCar:hover {
+  background-color: lightgray;
+}
+
 .sidebar>div>button:hover {
   background-color: lightgray;
 }

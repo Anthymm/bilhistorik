@@ -1,11 +1,12 @@
 const connectionMySQL = require("../connectionMySQL");
 
 exports.getServiceHistory = async (req, res) => {
-
-  let sql = 'SELECT * FROM ServiceHistory'
+  const { CarID } = req.query
+  let sql = 'SELECT * FROM ServiceHistory WHERE CarID = ?'
+  let params = [CarID]
 
   try {
-    await connectionMySQL.query(sql, (error, results, fields) => {
+    await connectionMySQL.query(sql, params, (error, results, fields) => {
       if (error) {
         if (error) throw error
       }

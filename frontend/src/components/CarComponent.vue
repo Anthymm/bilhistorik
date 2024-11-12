@@ -8,6 +8,8 @@ const data = defineProps({
 
 const CarArray = ref([])
 const OwnershipArray = ref([])
+const ServiceArray = ref([])
+const ImageArray = ref([])
 
 watch(data, (oldVal, newVal) => {
   fetchCar()
@@ -27,8 +29,29 @@ function fetchOwnership() {
     .then(res => res.json())
     .then((data) => {
       OwnershipArray.value = [...data]
+      fetchService()
     })
 }
+
+function fetchService() {
+  fetch("/api/servicehistory?CarID=" + data.carID)
+    .then(res => res.json())
+    .then((data) => {
+      ServiceArray.value = [...data]
+      console.log(data)
+      fetchImages()
+    })
+}
+
+function fetchImages() {
+  fetch("/api/images?CarID=" + data.carID)
+    .then(res => res.json())
+    .then((data) => {
+      ImageArray.value = [...data]
+    })
+}
+
+
 </script>
 
 <template>
@@ -47,9 +70,17 @@ function fetchOwnership() {
         <div>{{ item.EndDate.substr(0, 10) }}</div>
       </div>
     </section>
-    <section class="ImageSection">
-    </section>
     <section class="Service">
+      <div v-for="item in ServiceArray">
+        <div>Service Datum: {{ item.ServiceDate.substr(0, 10) }}</div>
+        <div>Service Typ: {{ item.TypeOfService }}</div>
+        <div>Service Verkstad: {{ item.Workshop }}</div>
+      </div>
+    </section>
+    <section class="ImageSection">
+      <div v-for="item in ImageArray">
+        <img :src="item.ImageURL" alt="Bild på bil">
+      </div>
     </section>
   </section>
 </template>
@@ -89,6 +120,21 @@ section {
   border-bottom: 2px solid lightgray;
 }
 
+.Service {
+  width: 100%;
+  height: 20vh;
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid lightgray;
+}
+
+.ImageSection {
+  width: 100%;
+  height: 32vh;
+  display: flex;
+  justify-content: center;
+}
+
 .Ownership>div>span {
   font-size: 48px;
 }
@@ -101,7 +147,31 @@ section {
   align-items: center;
 }
 
+.Service>div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ImageSection>div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .Ownership>div>div {
   font-size: 48px;
+}
+
+.Service>div>div {
+  font-size: 48px;
+}
+
+.ImageSection>div>img {
+  border-radius: 4px;
 }
 </style>
